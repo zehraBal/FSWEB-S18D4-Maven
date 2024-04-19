@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 public class ResultAnalyzer implements TestWatcher, AfterAllCallback{
     private List<TestResultStatus> testResultsStatus = new ArrayList<>();
-    private static final String taskId = "160";
+    private static final String taskId = "162";
 
     private enum TestResultStatus {
         SUCCESSFUL, ABORTED, FAILED, DISABLED;
