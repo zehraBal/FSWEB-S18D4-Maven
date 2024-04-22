@@ -27,6 +27,7 @@ Proje sayımız ilerledikçe proje yönetimimizi kolaylaştırmak adına projele
  * ```com.workintech.s18d1``` paketi altında ```controller```, ```entity```, ```exceptions```, ```dao```, ```util``` isminde 5 adet daha paket oluşturunuz.
  * Project Lombok'u dependency olarak uygulamanıza ekleyin.
  * ```entity``` paketinin altına ```Burger``` adında bir sınıf tanımlayınız. İçerisinde instance variable olarak ```id, name, price, isVegan, breadType, contents``` isminde 6 tane değişken oluşturun.
+ * breadType değişkenini BURGER, WRAP veya DOUBLE değerlerinden birini alabilecek bir enum olarak tanımlayınız.
  * JPA annotation larını uygulayarak bu sınıfı bir veritabanı tablosu olucak şekilde işaretleyiniz.
  * ```application.properties``` dosyanızı kullanarak veritabanı bağlantınızı kurun.
  * ```spring.jpa.hibernate.ddl-auto``` opsiyonu ile ilk başta tablonuzu create edin. Daha sonra bu opsiyonu değiştirerek tablolardaki verilerin silinmesini önleyin.
@@ -61,11 +62,15 @@ Proje sayımız ilerledikçe proje yönetimimizi kolaylaştırmak adına projele
  ### Görev 3
  * Her endpointin hata fırlatabileceği senaryolar düşünülmeli ```exceptions``` paketi altına bu Error sınıfları oluşturulmalı.
  * Error Handling Global bir merkezden yönetilmeli. Controller sınıflarının altında olmamalı.
+ * BurgerErrorResponse ve BurgerErrorException adnında iki sınıf yazılmalı.
+ * BurgerErrorResponse içerisine sadece message stringi instance variable olarak eklenmeli.
+ * BurgerException RuntimeException sınıfından türemeli ve içerisinde ek olarak HttpStatus tipinde bir instance variable tutmalıdır.
  * Her Controller ```@Slf4j``` ile işaretlenmelidir. Endpoint bir şekilde hata döndüğünde ```error logu``` basılmalı.
  * validation işlemleri controller sınıfı içinde kalmamalı. ```util``` paketi altında ```BurgerValidation``` isimli bir sınıf oluşturunuz. Validation işlemlerini buraya alınız.
 
-### Görev 4
- * Codepen üzerinden veya bir React uygulaması oluşturarak Spring Boot ile yazdığımız projeye request atmayı deneyiniz.
-  cors hatasını nasıl çözebiliriz.
+### Görev 4[OPTIONAL]
+ * logging.level.org.hibernate.SQL=Debug ve logging.level.org.hibernate.jdbc.bind=trace propertyleri kullanılarak oluşturulan queryleri inceleyiniz.
+ * Codepen üzerinden veya bir React uygulaması oluşturarak Spring Boot ile yazdığımız projeye request atmayı deneyiniz.  cors hatasını nasıl çözebiliriz.
+
 
  
