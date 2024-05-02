@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class ResultAnalyzer implements TestWatcher, AfterAllCallback{
+public class ResultAnalyzer2 implements TestWatcher, AfterAllCallback{
     private List<TestResultStatus> testResultsStatus = new ArrayList<>();
     private static final String taskId = "163";
 
