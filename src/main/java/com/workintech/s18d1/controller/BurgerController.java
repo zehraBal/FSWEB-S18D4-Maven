@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -27,32 +28,40 @@ public class BurgerController {
 
     @GetMapping("/{id}")
     public Burger getBurgerById(@PathVariable long id){
-      return  burgerDao.finById(id);
+        if(id<=0){
+            throw new BurgerException("Id must be greater than 0",HttpStatus.BAD_REQUEST);
+        }
+        Burger burger = burgerDao.findById(id);
+        if (burger == null) {
+            throw new BurgerException("Burger with this id doesn't exist.", HttpStatus.NOT_FOUND);
+        }
+      return  burgerDao.findById(id);
     }
 
     @GetMapping("/findByPrice")
-    public List<Burger> getBurgersByPrice(@RequestBody double price){
+    public List<Burger> getBurgersByPrice(@RequestParam double price){
         return burgerDao.findByPrice(price);
     }
 
     @GetMapping("/findByBreadType")
-    public List<Burger> getBurgerByBreadType(@RequestBody BreadType breadType){
-        return burgerDao.findByBreadType(breadType);
+    public List<Burger> getBurgerByBreadType(@RequestParam String breadType){
+        BreadType type = BreadType.valueOf(breadType.toUpperCase());
+        return burgerDao.findByBreadType(type);
     }
 
     @GetMapping("/findByContent")
-    public List<Burger> getBurgerByContent(@RequestBody String content){
+    public List<Burger> getBurgerByContent(@RequestParam String content){
       return  burgerDao.findByContent(content);
     }
 
     @PutMapping("/{id}")
     public Burger updateBurger(@PathVariable long id,@RequestBody Burger burger){
-        Burger oldBurger=burgerDao.finById(id);
+        Burger oldBurger=burgerDao.findById(id);
         oldBurger.setName(burger.getName());
         oldBurger.setPrice(burger.getPrice());
         oldBurger.setBreadType(burger.getBreadType());
         oldBurger.setContents(burger.getContents());
-        oldBurger.setIsVegan(burger.isVegan());
+        oldBurger.setIsVegan(burger.getIsVegan());
         return burgerDao.update(oldBurger);
     }
 
@@ -64,13 +73,13 @@ public class BurgerController {
 
     @DeleteMapping("/{id}")
     public Burger deleteBurger(@PathVariable long id){
-        Burger burgerToDelete = burgerDao.finById(id);
+        Burger burgerToDelete = burgerDao.findById(id);
         if (burgerToDelete == null) {
             throw new BurgerException("Burger not found with this id.", HttpStatus.NOT_FOUND);
         }
+
         return burgerDao.remove(id);
     }
-
 
 
 }

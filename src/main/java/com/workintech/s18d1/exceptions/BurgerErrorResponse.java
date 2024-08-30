@@ -8,7 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class BurgerErrorResponse {
-    private int status;
     private String message;
-    private long timeStamp;
 }

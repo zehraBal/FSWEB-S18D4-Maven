@@ -33,4 +33,8 @@ public class Burger {
     public void setIsVegan(boolean isVegan){
         this.isVegan=isVegan;
     }
+
+    public boolean getIsVegan(){
+        return isVegan;
+    }
 }

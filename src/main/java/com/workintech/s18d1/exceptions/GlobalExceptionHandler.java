@@ -11,13 +11,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<BurgerErrorResponse> handleException(BurgerException exception){
-        BurgerErrorResponse response=new BurgerErrorResponse(exception.getHttpStatus().value(),exception.getMessage(),System.currentTimeMillis());
+        BurgerErrorResponse response=new BurgerErrorResponse(exception.getMessage());
         return new ResponseEntity<>(response,exception.getHttpStatus());
     }
 
     @ExceptionHandler
     public ResponseEntity<BurgerErrorResponse> handleException(Exception exception){
-        BurgerErrorResponse response=new BurgerErrorResponse( HttpStatus.NOT_FOUND.value(),exception.getMessage(),System.currentTimeMillis());
+        BurgerErrorResponse response=new BurgerErrorResponse( exception.getMessage());
         return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
     }
 }

@@ -2,10 +2,12 @@ package com.workintech.s18d1.dao;
 
 import com.workintech.s18d1.entity.BreadType;
 import com.workintech.s18d1.entity.Burger;
+import com.workintech.s18d1.exceptions.BurgerException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -41,8 +43,16 @@ public class BurgerDaoImpl implements BurgerDao{
     }
 
     @Override
-    public Burger finById(long id) {
+    public Burger findById(long id) {
         TypedQuery<Burger> query = entityManager.createQuery("SELECT b FROM Burger b WHERE b.id = :id",Burger.class);
+        if(query==null){
+            throw new BurgerException("query is null", HttpStatus.NOT_FOUND);
+        }
+
+        query.setParameter("id",id);
+        if(query.getSingleResult()==null){
+            throw  new BurgerException("Id doesn't exist", HttpStatus.NOT_FOUND);
+        }
         return   query.getSingleResult();
     }
 
@@ -69,8 +79,8 @@ public class BurgerDaoImpl implements BurgerDao{
 
     @Override
     public List<Burger> findByContent(String contents) {
-    TypedQuery<Burger> query =entityManager.createQuery("SELECT b FROM Burger b WHERE b.content = :contents", Burger.class);
-    query.setParameter("content",contents);
+    TypedQuery<Burger> query =entityManager.createQuery("SELECT b FROM Burger b WHERE b.contents = :contents", Burger.class);
+    query.setParameter("contents",contents);
     return query.getResultList();
     }
 }
