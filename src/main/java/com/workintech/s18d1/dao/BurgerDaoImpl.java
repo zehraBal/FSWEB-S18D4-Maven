@@ -6,12 +6,14 @@ import com.workintech.s18d1.exceptions.BurgerException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Slf4j
 @Repository
 public class BurgerDaoImpl implements BurgerDao{
     private EntityManager entityManager;
@@ -44,16 +46,11 @@ public class BurgerDaoImpl implements BurgerDao{
 
     @Override
     public Burger findById(long id) {
-        TypedQuery<Burger> query = entityManager.createQuery("SELECT b FROM Burger b WHERE b.id = :id",Burger.class);
-        if(query==null){
-            throw new BurgerException("query is null", HttpStatus.NOT_FOUND);
+        Burger burger=entityManager.find(Burger.class,id);
+        if(burger==null){
+            throw  new BurgerException("Burger not found",HttpStatus.NOT_FOUND);
         }
-
-        query.setParameter("id",id);
-        if(query.getSingleResult()==null){
-            throw  new BurgerException("Id doesn't exist", HttpStatus.NOT_FOUND);
-        }
-        return   query.getSingleResult();
+        return burger;
     }
 
     @Override
@@ -63,11 +60,12 @@ public class BurgerDaoImpl implements BurgerDao{
     }
 
     @Override
-    public List<Burger> findByPrice(double price) {
-        TypedQuery<Burger> query=entityManager.createQuery("SELECT b FROM Burger b WHERE b.price > :price ORDER BY b.price DESC",Burger.class);
-        query.setParameter("price",price);
-        return query.getResultList();
+    public List<Burger> findByPrice(Integer price) {
+        TypedQuery<Burger> foundList = entityManager.createQuery("SELECT b FROM Burger b WHERE b.price > :price ORDER BY b.price DESC", Burger.class);
+        foundList.setParameter("price", price);
+        return foundList.getResultList();
     }
+
 
     @Override
     public List<Burger> findByBreadType(BreadType breadType) {

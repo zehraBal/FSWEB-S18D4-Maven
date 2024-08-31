@@ -18,6 +18,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<BurgerErrorResponse> handleException(Exception exception){
         BurgerErrorResponse response=new BurgerErrorResponse( exception.getMessage());
-        return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

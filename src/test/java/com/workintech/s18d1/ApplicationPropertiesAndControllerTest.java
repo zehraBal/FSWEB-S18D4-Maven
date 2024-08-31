@@ -191,7 +191,7 @@ class ApplicationPropertiesAndControllerTest {
     @DisplayName("Find by price test")
     void testFindByPrice() throws Exception {
         List<Burger> burgers = Arrays.asList(sampleBurger);
-        given(burgerDao.findByPrice(sampleBurger.getPrice())).willReturn(burgers);
+        given(burgerDao.findByPrice((int) sampleBurger.getPrice())).willReturn(burgers);
 
         mockMvc.perform(get("/burger/price/{price}", sampleBurger.getPrice()))
                 .andExpect(status().isOk())
